@@ -9,13 +9,16 @@
 </head>
 <body>
   <h1>Новая заявка</h1>
-  <h2>Для показа списка материалов нажмите кнопку "Начать"</h2>
+  <h2 id="hint">Для показа списка материалов нажмите кнопку "Начать"</h2>
+  <p>
+    <input type="text" class="hidden" name="object">
+  </p>
   <p>
     <button id="start">Начать</button>
   </p>
   <div id="category"></div>
   <p>
-    <button id="perform">Сформировать</button>
+    <button id="perform" class="hidden">Сформировать</button>
   </p>
   <div id="list"></div>
   <script src="./src/productList.js"></script>

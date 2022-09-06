@@ -2,11 +2,17 @@ let startButton = document.querySelector("#start");
 let performButton = document.querySelector("#perform");
 let categoriesList = document.querySelector("#category");
 let listOfOrderedProducts = document.querySelector("#list");
+let hintTextElement = document.querySelector("#hint");
+let objectInputElement = document.querySelector("[name=object]");
 
 startButton.addEventListener("click", showCategories);
 performButton.addEventListener("click", performList);
 
 function showCategories() {  
+  hintTextElement.innerText = "Введите название объекта, на котором будут выполняться работы:";
+  objectInputElement.classList.remove("hidden");
+  objectInputElement.value = '';
+  performButton.classList.remove("hidden");
   categoriesList.innerHTML = Object
     .keys(obj)
     .map((el) => `<div id="${el}"><button name="${el}" class="category">${el}</button><div name="content" class="hidden"></div></div>`)
@@ -30,7 +36,13 @@ function showGoods(event) {
 }
 
 function performList() {
-  listOfOrderedProducts.innerHTML = Array
+  let objectName = objectInputElement.value;
+  if (objectName == "") {
+    listOfOrderedProducts.innerHTML = "<p><strong>Ошибка: объект неопределен. Список не может быть сформирован без указания сведений об объекте. Пожалуйста, введите название объекта (см. текстовое поле в начале страницы).</strong></p>";
+    return 0;
+  };
+  const objectNameHTML = `<p>===Объект выполнения работ: ${objectName}===</p>`;
+  const goodsHTML = Array
     .from(document.querySelectorAll("input[type=checkbox]"))
     .filter((el) => el.checked)
     .map((el) => {
@@ -38,4 +50,7 @@ function performList() {
       return `<p>${el.id}</p><p>.....${quantity}</p>`
     })
     .join('');
+
+
+    listOfOrderedProducts.innerHTML = objectNameHTML + goodsHTML;
 }
