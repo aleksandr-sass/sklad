@@ -4,14 +4,20 @@ let categoriesList = document.querySelector("#category");
 let listOfOrderedProducts = document.querySelector("#list");
 let hintTextElement = document.querySelector("#hint");
 let objectInputElement = document.querySelector("[name=object]");
+let viberLink = document.querySelector("#viber");
+let textAreaElement = document.querySelector("#text");
+let copyButton = document.querySelector("#copy");
 
 startButton.addEventListener("click", showCategories);
 performButton.addEventListener("click", performList);
+copyButton.addEventListener("click", copy);
 
 function showCategories() {  
   hintTextElement.innerText = "Введите название объекта, на котором будут выполняться работы:";
   objectInputElement.classList.remove("hidden");
   objectInputElement.value = '';
+  viberLink.classList.add("hidden");
+  textAreaElement.value = '';
   performButton.classList.remove("hidden");
   categoriesList.innerHTML = Object
     .keys(obj)
@@ -51,6 +57,24 @@ function performList() {
     })
     .join('');
 
-
     listOfOrderedProducts.innerHTML = objectNameHTML + goodsHTML;
+
+    //create a share-via-viber link
+    let message = listOfOrderedProducts.innerText;
+    viberLink.href = `viber://forward?text=<${message}>`;
+    if (message.length > 200) {      
+      viberLink.classList.add("hidden");
+    };
+    if (message.length <= 200) {      
+      viberLink.classList.remove("hidden");
+    };
+
+    //add text to textareaElement
+    textAreaElement.value = message;
+}
+
+function copy() {
+  let copyText = document.querySelector("#text");
+  copyText.select();
+  document.execCommand("copy");
 }
