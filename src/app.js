@@ -33,6 +33,9 @@ function performList() {
   listOfOrderedProducts.innerHTML = Array
     .from(document.querySelectorAll("input[type=checkbox]"))
     .filter((el) => el.checked)
-    .map((el) => `<p>${el.id}</p>`)
+    .map((el) => {
+      let quantity = el.parentNode.nextSibling.value;
+      return `<p>${el.id}</p><p>.....${quantity}</p>`
+    })
     .join('');
 }
