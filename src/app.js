@@ -23,7 +23,7 @@ function showGoods(event) {
   const goodsList = event.target.nextSibling;
   if (goodsList.innerHTML == '') {
     goodsList.innerHTML = arr
-      .map((el) => `<p><label><input type='checkbox' id='${el}'">${el}</label></p>`)
+      .map((el) => `<p class="goods"><label><input type='checkbox' id='${el}'>${el}</label><input type="text" size="4" maxlength="4"></p>`)
       .join('');
   }
   goodsList.classList.toggle("hidden");
@@ -31,7 +31,7 @@ function showGoods(event) {
 
 function performList() {
   listOfOrderedProducts.innerHTML = Array
-    .from(document.querySelectorAll("input"))
+    .from(document.querySelectorAll("input[type=checkbox]"))
     .filter((el) => el.checked)
     .map((el) => `<p>${el.id}</p>`)
     .join('');

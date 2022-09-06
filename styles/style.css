@@ -1,3 +1,9 @@
 .hidden {
   display: none;
 }
+
+.goods {
+  background-color:darkkhaki;
+  display: flex;
+  justify-content: space-between;
+}
