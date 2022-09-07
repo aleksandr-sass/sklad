@@ -22,7 +22,10 @@ function showCategories() {
     .join('');
   subscribe(".category", showGoods);
   startButton.innerText = 'Очистить';
-  clear(objectInputElement.value, textAreaElement.value, listOfOrderedProducts.innerHTML);
+  objectInputElement.value = '';
+  textAreaElement.value = '';
+  listOfOrderedProducts.innerHTML = '';
+  hide(viberLink, helperText, finalHint, performButton, textAreaElement, copyButton);
   show(objectInputElement, helperText);
 }
 
@@ -59,7 +62,7 @@ function performList() {
   let message = listOfOrderedProducts.innerText;
   viberLink.href = `viber://forward?text=<${message}>`;
   if (message.length > 200) {      
-    viberLink.classList.add("hidden");
+    hide(viberLink);
   } else {
     show(viberLink);
   }
@@ -82,8 +85,8 @@ function show(...args) {
   args.forEach((el) => el.classList.remove("hidden"));
 }
 
-function clear(...args) {
-  args.forEach((el) => el = '');
+function hide(...args) {
+  args.forEach((el) => el.classList.add("hidden"));
 }
 
 function subscribe(selectorString, handler) {
