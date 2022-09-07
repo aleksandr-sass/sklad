@@ -80,6 +80,9 @@ function performList() {
     //show textAreaElement and copyButton
     textAreaElement.classList.remove("hidden");
     copyButton.classList.remove("hidden");
+
+    //smooth scroll into <div> with ordered products
+    listOfOrderedProducts.scrollIntoView({block: "start", behavior: "smooth"});
 }
 
 function copy() {
