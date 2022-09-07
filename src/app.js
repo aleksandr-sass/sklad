@@ -16,19 +16,14 @@ copyButton.addEventListener("click", copy);
 
 function showCategories() {  
   hintTextElement.innerText = "Введите название объекта, на котором будут выполняться работы:";
-  objectInputElement.classList.remove("hidden");
-  objectInputElement.value = '';
-  helperText.classList.remove("hidden");
-  viberLink.classList.add("hidden");
-  textAreaElement.value = '';
   categoriesList.innerHTML = Object
     .keys(obj)
     .map((el) => `<div id="${el}"><button name="${el}" class="category">${el}</button><div name="content" class="hidden"></div></div>`)
     .join('');
-  let buttons = document.querySelectorAll(".category");
-  buttons.forEach((el) => el.addEventListener("click", showGoods));
+  subscribe(".category", showGoods);
   startButton.innerText = 'Очистить';
-  listOfOrderedProducts.innerHTML = '';
+  clear(objectInputElement.value, textAreaElement.value, listOfOrderedProducts.innerHTML);
+  show(objectInputElement, helperText);
 }
 
 function showGoods(event) {
@@ -41,15 +36,14 @@ function showGoods(event) {
       .join('');
   }
   goodsList.classList.toggle("hidden");
-
-  let checkBoxArray = document.querySelectorAll(".goods");
-  checkBoxArray.forEach((el) => el.addEventListener("click", showFinalHint));
+  subscribe(".goods", showFinalHint);
 }
 
 function performList() {
   let objectName = objectInputElement.value;
   if (objectName == "") {
     listOfOrderedProducts.innerHTML = "<p><strong>Ошибка: объект неопределен. Список не может быть сформирован без указания сведений об объекте. Пожалуйста, введите название объекта (см. текстовое поле в начале страницы).</strong></p>";
+    scroll();
     return 0;
   };
   const objectNameHTML = `<p>===Объект выполнения работ: ${objectName}===</p>`;
@@ -61,28 +55,17 @@ function performList() {
       return `<p>${el.id}</p><p>.....${quantity}</p>`
     })
     .join('');
-
-    listOfOrderedProducts.innerHTML = objectNameHTML + goodsHTML;
-
-    //create a share-via-viber link
-    let message = listOfOrderedProducts.innerText;
-    viberLink.href = `viber://forward?text=<${message}>`;
-    if (message.length > 200) {      
-      viberLink.classList.add("hidden");
-    };
-    if (message.length <= 200) {      
-      viberLink.classList.remove("hidden");
-    };
-
-    //add text to textAreaElement
-    textAreaElement.value = message;
-
-    //show textAreaElement and copyButton
-    textAreaElement.classList.remove("hidden");
-    copyButton.classList.remove("hidden");
-
-    //smooth scroll into <div> with ordered products
-    listOfOrderedProducts.scrollIntoView({block: "start", behavior: "smooth"});
+  listOfOrderedProducts.innerHTML = objectNameHTML + goodsHTML;
+  let message = listOfOrderedProducts.innerText;
+  viberLink.href = `viber://forward?text=<${message}>`;
+  if (message.length > 200) {      
+    viberLink.classList.add("hidden");
+  } else {
+    show(viberLink);
+  }
+  textAreaElement.value = message;
+  show(textAreaElement, copyButton);
+  scroll();
 }
 
 function copy() {
@@ -92,10 +75,22 @@ function copy() {
 }
 
 function showFinalHint() {
-  finalHint.classList.remove("hidden");
-  showPerformButton();
+  show(finalHint, performButton);
 }
 
-function showPerformButton() {
-  performButton.classList.remove("hidden");
+function show(...args) {
+  args.forEach((el) => el.classList.remove("hidden"));
+}
+
+function clear(...args) {
+  args.forEach((el) => el = '');
+}
+
+function subscribe(selectorString, handler) {
+  let buttonsArray = document.querySelectorAll(selectorString);
+  buttonsArray.forEach((el) => el.addEventListener("click", handler));
+}
+
+function scroll() {
+  listOfOrderedProducts.scrollIntoView({block: "start", behavior: "smooth"});
 }
