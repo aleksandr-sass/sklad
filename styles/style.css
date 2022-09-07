@@ -6,6 +6,10 @@
   display: none;
 }
 
+.category {
+  margin: 0.5em;
+}
+
 .goods {
   background-color:darkkhaki;
   display: flex;

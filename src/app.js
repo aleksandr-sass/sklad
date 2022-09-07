@@ -7,6 +7,8 @@ let objectInputElement = document.querySelector("[name=object]");
 let viberLink = document.querySelector("#viber");
 let textAreaElement = document.querySelector("#text");
 let copyButton = document.querySelector("#copy");
+let helperText = document.querySelector("#helper");
+let finalHint = document.querySelector("#final");
 
 startButton.addEventListener("click", showCategories);
 performButton.addEventListener("click", performList);
@@ -16,9 +18,9 @@ function showCategories() {
   hintTextElement.innerText = "Введите название объекта, на котором будут выполняться работы:";
   objectInputElement.classList.remove("hidden");
   objectInputElement.value = '';
+  helperText.classList.remove("hidden");
   viberLink.classList.add("hidden");
   textAreaElement.value = '';
-  performButton.classList.remove("hidden");
   categoriesList.innerHTML = Object
     .keys(obj)
     .map((el) => `<div id="${el}"><button name="${el}" class="category">${el}</button><div name="content" class="hidden"></div></div>`)
@@ -39,6 +41,9 @@ function showGoods(event) {
       .join('');
   }
   goodsList.classList.toggle("hidden");
+
+  let checkBoxArray = document.querySelectorAll(".goods");
+  checkBoxArray.forEach((el) => el.addEventListener("click", showFinalHint));
 }
 
 function performList() {
@@ -69,12 +74,25 @@ function performList() {
       viberLink.classList.remove("hidden");
     };
 
-    //add text to textareaElement
+    //add text to textAreaElement
     textAreaElement.value = message;
+
+    //show textAreaElement and copyButton
+    textAreaElement.classList.remove("hidden");
+    copyButton.classList.remove("hidden");
 }
 
 function copy() {
   let copyText = document.querySelector("#text");
   copyText.select();
   document.execCommand("copy");
+}
+
+function showFinalHint() {
+  finalHint.classList.remove("hidden");
+  showPerformButton();
+}
+
+function showPerformButton() {
+  performButton.classList.remove("hidden");
 }
